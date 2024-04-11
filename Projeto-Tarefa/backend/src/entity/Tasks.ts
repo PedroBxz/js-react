@@ -11,7 +11,7 @@ export class Tasks{
     @Column()
     description: string;
 
-    @Column()
+    @Column({default: false})
     finished: boolean;
 
     @CreateDateColumn()
