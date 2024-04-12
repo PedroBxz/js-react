@@ -16,7 +16,7 @@ export const saveTasks = async(request: Request, response: Response) => {
 
 export const getTask = async(request: Request, response: Response) => {
     const {id} = request.params
- const task = await repository.findOneBy({ id: parseInt(id) });
+    const task = await repository.findOne({ where: { id: parseInt(id) } });
     return response.json(task);
 };
 

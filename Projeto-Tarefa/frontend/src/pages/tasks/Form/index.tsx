@@ -1,6 +1,4 @@
-
- import React, { useState, ChangeEvent, useEffect } from "react";
-
+import React, { useState, ChangeEvent, useEffect} from "react";
 import { Button, Form as BootstrapForm } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -24,10 +22,14 @@ description: "",
 });
 
 useEffect(() => {
-console.log(id);
-
-findTask(id);
+    console.log(id);
+    
+    if (id) {
+        findTask(parseInt(id));
+    }
 }, [id]);
+
+
 
 function updatedModel(e: ChangeEvent<HTMLInputElement>) {
 setModel({
@@ -38,7 +40,7 @@ setModel({
 
 async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
 e.preventDefault();
-const response = id ? await api.put(`/tasks/${id}`, model) : await api.post("/tasks", model);
+const response = await api.post("/tasks", model);
 back();
 }
 
@@ -46,21 +48,22 @@ function back() {
 navigate(-1);
 }
 
-async function findTask(id?: string) {
-const response = await api.get(`tasks/${id}`);
-console.log(response);
-setModel({
-title: response.data.title,
-description: response.data.description,
-});
-}
+async function findTask(id?: number) {
+    const response = await api.get(`tasks/${id}`);
+    console.log(response);
+    setModel({
+    title: response.data.title,
+    description: response.data.description,
+    });
+    }
+    
 
 return (
 <div className="container">
 <br />
 
 <div className="task-header">
-<h1>Tarefa</h1>
+<h1>Nova Tarefa</h1>
 
 <Button variant="dark" size="sm" onClick={back}>
 Voltar

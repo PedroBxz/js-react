@@ -44,6 +44,20 @@ function editTask(id: number) {
 navigate(`/tarefas/cadastro/${id}`);
 }
 
+function viewTask(id: number){
+    navigate(`/tarefas/${id}`)
+}
+
+async function finishTask(id: number){
+    await api.patch(`/tasks/${id}`);
+    loadTasks();
+}
+
+async function deleteTask(id: number){
+    await api.delete(`/tasks/${id}`);
+    loadTasks();
+}
+
 return (
 <div className="container">
 <br />
@@ -74,6 +88,7 @@ Nova Tarefa
 <td>{task.finished ? "Finalizado" : "Pendente"}</td>
 <td>
 <Button
+disabled = {task.finished}
 size="sm"
 variant="primary"
 onClick={() => editTask(task.id)}
@@ -81,22 +96,30 @@ onClick={() => editTask(task.id)}
 Editar
 </Button>{" "}
 <Button
+disabled = {task.finished}
 size="sm"
 variant="success"
+onClick={() => finishTask(task.id)}
 >
 Finalizar
 </Button>
 <Button
+
 size="sm"
 variant="warning"
+onClick={() => viewTask(task.id)}
 >
 Visualizar
+
 </Button>{" "}
 <Button
+onClick={() => deleteTask(task.id)}
+disabled = {task.finished}
 size="sm"
 variant="danger"
 >
 Remover
+
 </Button>{" "}
 </td>
 </tr>
